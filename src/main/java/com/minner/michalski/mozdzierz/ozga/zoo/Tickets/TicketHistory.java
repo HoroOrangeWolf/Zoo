@@ -1,17 +1,14 @@
 package com.minner.michalski.mozdzierz.ozga.zoo.Tickets;
 
 import com.minner.michalski.mozdzierz.ozga.zoo.User.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.beans.ConstructorProperties;
 import java.sql.Date;
 
 @Table(name = "ticket_history")
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -36,4 +33,10 @@ public class TicketHistory {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    public TicketHistory(Ticket ticket, Date date, Float price, User user) {
+        this.ticket = ticket;
+        this.date = date;
+        this.price = price;
+        this.user = user;
+    }
 }

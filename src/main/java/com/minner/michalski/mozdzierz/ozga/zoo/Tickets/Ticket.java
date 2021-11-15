@@ -9,7 +9,6 @@ import javax.persistence.*;
 
 @Table(name = "ticket")
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Getter
 @Setter
@@ -30,4 +29,9 @@ public class Ticket {
     @Column(name = "price", nullable = false)
     private Float price;
 
+    public Ticket(String name, String description, Float price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
 }
