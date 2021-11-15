@@ -11,4 +11,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT c FROM User c WHERE c.nick LIKE ?1")
     Optional<User> getUserByName(String nick);
 
+
+
 }

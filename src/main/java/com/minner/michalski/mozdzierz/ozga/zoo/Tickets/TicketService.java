@@ -1,5 +1,6 @@
 package com.minner.michalski.mozdzierz.ozga.zoo.Tickets;
 
+import com.minner.michalski.mozdzierz.ozga.zoo.Tickets.Exceptions.TicketIsNotExistingException;
 import com.minner.michalski.mozdzierz.ozga.zoo.User.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,13 +20,16 @@ public class TicketService {
     public void addTicket(Ticket ticket){
         ticketRepository.save(ticket);
     }
-
+    //Todo: Przerobić to inaczej
     public void buyTicket(User user, Ticket ticket){
         ticketHistoryRepository.save(new TicketHistory(ticket, new Date(new java.util.Date().getTime()), ticket.getPrice(), user));
     }
 
     public void removeTicket(Long id){
-        ticketRepository.deleteById(id);
+        if(ticketRepository.existsById(id))
+            ticketRepository.deleteById(id);
+
+        throw new TicketIsNotExistingException("User is not existing");
     }
 
     public void removeTicketHistory(Long id){

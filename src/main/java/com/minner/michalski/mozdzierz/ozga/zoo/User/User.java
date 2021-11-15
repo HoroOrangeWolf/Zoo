@@ -27,6 +27,8 @@ public class User {
     @Column(name = "password", nullable = false)
     private char[] password;
 
+
+
     @Column(name = "is_bok_manager", nullable = false)
     private Boolean isBokManager;
 
@@ -35,5 +37,8 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<TicketHistory> ticketHistories;
+
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
 
 }
