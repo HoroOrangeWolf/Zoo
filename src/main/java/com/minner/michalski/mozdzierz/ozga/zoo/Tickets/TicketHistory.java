@@ -1,5 +1,6 @@
 package com.minner.michalski.mozdzierz.ozga.zoo.Tickets;
 
+import com.minner.michalski.mozdzierz.ozga.zoo.User.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,5 +31,9 @@ public class TicketHistory {
 
     @Column(name = "price", nullable = false)
     private Float price;
+
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
 }
