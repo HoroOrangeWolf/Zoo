@@ -13,7 +13,6 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository repository;
 
-
     public User getUser(Long id){
         return repository.getById(id);
     }
@@ -33,6 +32,32 @@ public class UserService {
         if(!repository.existsById(id))
             throw new UserNotExistException("User is not existing");
         repository.deleteById(id);
+    }
+
+    public void updatePassword(User user){
+        Optional<User> optionalUser = repository.findById(user.getId());
+
+        if(optionalUser.isEmpty())
+            throw new IllegalStateException("User by : " + user.getId() + " is not existing!");
+
+        User toUpdate = optionalUser.get();
+
+        toUpdate.setPassword(user.getPassword());
+
+        repository.save(toUpdate);
+    }
+
+    public void updateEmail(User user){
+        Optional<User> optionalUser = repository.findById(user.getId());
+
+        if(optionalUser.isEmpty())
+            throw new IllegalStateException("User by : " + user.getId() + " is not existing!");
+
+        User toUpdate = optionalUser.get();
+
+        toUpdate.setEmail(user.getEmail());
+
+        repository.save(toUpdate);
     }
 
     public User getUserByName(String nick){

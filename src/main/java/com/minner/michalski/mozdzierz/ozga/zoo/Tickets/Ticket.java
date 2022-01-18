@@ -1,11 +1,12 @@
 package com.minner.michalski.mozdzierz.ozga.zoo.Tickets;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.sql.Date;
 
 @Table(name = "ticket")
 @NoArgsConstructor
@@ -19,19 +20,19 @@ public class Ticket {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    @Lob
-    @Column(name = "description", nullable = false)
-    private String description;
-
     @Column(name = "price", nullable = false)
-    private Float price;
+    private BigDecimal price;
 
-    public Ticket(String name, String description, Float price) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-    }
+    @Column(name = "isTicketValidate", nullable = false)
+    private Boolean isTicketValidate = false;
+
+    @Column(name = "isTicketActive", nullable = false)
+    private Boolean isTicketActive = true;
+
+    @Column(name = "buyDate", nullable = false)
+    private Date buyDate;
+
+    @Column(name = "reservationTime", nullable = false)
+    private Date reservationTime;
+
 }

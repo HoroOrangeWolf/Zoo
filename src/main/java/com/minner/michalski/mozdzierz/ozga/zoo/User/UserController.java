@@ -11,13 +11,20 @@ public class UserController {
     private final UserService service;
 
     @PostMapping
-    public void addUser(@RequestBody User user){
+    public void registerUser(@RequestBody User user){
         service.addUser(user);
     }
 
+    @PutMapping("/{userId}/changeEmail")
+    public void changeEmail(@PathVariable("userid") Long id,@RequestBody User user){
+        user.setId(user.getId());
+        service.updateEmail(user);
+    }
+
     @PutMapping
-    public void updateUser(@RequestBody User user){
-        service.updateUser(user);
+    public void changePassword(@PathVariable("userid") Long id,@RequestBody User user){
+        user.setId(user.getId());
+        service.updatePassword(user);
     }
 
     @GetMapping("/{userId}")

@@ -1,6 +1,6 @@
 package com.minner.michalski.mozdzierz.ozga.zoo.User;
 
-import com.minner.michalski.mozdzierz.ozga.zoo.Tickets.TicketHistory;
+import com.minner.michalski.mozdzierz.ozga.zoo.Tickets.Ticket;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +25,7 @@ public class User {
     private String nick;
 
     @Column(name = "password", nullable = false)
-    private char[] password;
+    private String password;
 
 
 
@@ -35,8 +35,8 @@ public class User {
     @Column(name = "last_login", nullable = false, columnDefinition = "long default 0")
     private Date lastLogin;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<TicketHistory> ticketHistories;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ticket> ticketHistories;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
