@@ -1,5 +1,6 @@
 package com.minner.michalski.mozdzierz.ozga.zoo.Tickets;
 
+import com.minner.michalski.mozdzierz.ozga.zoo.Map.Path;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,5 +35,10 @@ public class Ticket {
 
     @Column(name = "reservationTime", nullable = false)
     private Date reservationTime;
+
+
+    @OneToOne
+    @JoinColumn(name = "path_id")
+    private Path path;
 
 }
