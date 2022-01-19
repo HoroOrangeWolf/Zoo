@@ -71,6 +71,6 @@ public class UserService {
     }
 
     public boolean isUserBOK(Long id){
-        return getUser(id).getIsBokManager();
+        return getUser(id).isBokManager();
     }
 }

@@ -1,16 +1,18 @@
 package com.minner.michalski.mozdzierz.ozga.zoo.Tickets;
 
+import com.minner.michalski.mozdzierz.ozga.zoo.Animal.Section;
 import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 @NoArgsConstructor
 @Getter
 @Setter
-@Table
+@Table(name = "promotion")
 @Entity(name = "promotion")
 @ToString
 @AllArgsConstructor
@@ -23,6 +25,9 @@ public class Promotion {
 
     @Column(name = "price", nullable = false)
     private BigDecimal price;
+
+    @OneToMany(mappedBy = "promotion", orphanRemoval = true)
+    List<PromotionSection> sectionList;
 
     @Override
     public boolean equals(Object o) {

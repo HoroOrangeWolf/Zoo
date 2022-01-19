@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping(path = "/api/v1/users")
 @AllArgsConstructor
 public class UserController {
 
@@ -16,14 +16,18 @@ public class UserController {
     }
 
     @PutMapping("/{userId}/changeEmail")
-    public void changeEmail(@PathVariable("userid") Long id,@RequestBody User user){
-        user.setId(user.getId());
+    public void changeEmail(@PathVariable("userid") Long id,@RequestBody String email){
+        User user = new User();
+        user.setId(id);
+        user.setEmail(email);
         service.updateEmail(user);
     }
 
     @PutMapping
-    public void changePassword(@PathVariable("userid") Long id,@RequestBody User user){
-        user.setId(user.getId());
+    public void changePassword(@PathVariable("userid") Long id,@RequestBody String password){
+        User user = new User();
+        user.setId(id);
+        user.setPassword(password);
         service.updatePassword(user);
     }
 

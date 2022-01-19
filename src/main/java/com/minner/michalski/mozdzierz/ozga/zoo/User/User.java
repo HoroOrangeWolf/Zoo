@@ -5,10 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Table(name = "user")
 @Entity
@@ -18,6 +21,8 @@ import java.util.List;
 @Getter
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_generator")
+    @SequenceGenerator(name = "user_id_generator", sequenceName = "user_id_sequence", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -30,15 +35,35 @@ public class User {
 
 
     @Column(name = "is_bok_manager", nullable = false)
-    private Boolean isBokManager;
+    private boolean isBokManager;
 
-    @Column(name = "last_login", nullable = false, columnDefinition = "long default 0")
+    @Column(name = "last_login", nullable = false)
     private Date lastLogin;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Ticket> ticketHistories;
+    private List<Ticket> ticketHistories = new ArrayList<>();
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    public User(String nick, String password, Boolean isBokManager, Date lastLogin, String email) {
+        this.nick = nick;
+        this.password = password;
+        this.isBokManager = isBokManager;
+        this.lastLogin = lastLogin;
+        this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        User user = (User) o;
+        return id != null && Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

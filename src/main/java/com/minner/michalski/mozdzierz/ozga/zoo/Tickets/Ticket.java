@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.Calendar;
 
 @Table(name = "ticket")
 @NoArgsConstructor
@@ -34,7 +35,7 @@ public class Ticket {
     private Date buyDate;
 
     @Column(name = "reservationTime", nullable = false)
-    private Date reservationTime;
+    private Calendar reservationTime;
 
 
     @OneToOne
