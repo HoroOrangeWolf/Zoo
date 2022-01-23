@@ -29,7 +29,16 @@ public class MapService {
     }
 
     public void addPathElement(Long idPath, PathElement pathElement){
+        Optional<Path> byId = pathRepository.findById(idPath);
 
+        if(byId.isEmpty())
+            throw new IllegalStateException("Path identified by: " + idPath + " is not exiting!");
+
+        Path path = byId.get();
+
+        pathElement.setPath(path);
+
+        pathElementRepository.save(pathElement);
     }
 
     public void setVisited(Long pathElementId, Boolean isVisited){

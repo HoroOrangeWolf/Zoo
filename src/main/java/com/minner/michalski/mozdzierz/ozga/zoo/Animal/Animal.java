@@ -29,7 +29,7 @@ public class Animal {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @OneToOne(optional = false, orphanRemoval = true)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "section_id", nullable = false)
     private Section section;
 

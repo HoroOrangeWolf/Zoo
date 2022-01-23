@@ -220,6 +220,8 @@ public class AnimalSectionServiceTest {
         Animal animal = new Animal("Orangutan", "Taka brązowa małpka", section);
         Animal animal2 = new Animal("Pieski fajne", "fajny piesek", section);
         //when
+        sectionRepository.save(section);
+
         animalRepository.save(animal);
         animalRepository.save(animal2);
 

@@ -1,7 +1,6 @@
 package com.minner.michalski.mozdzierz.ozga.zoo.Map;
 
 import lombok.AllArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
