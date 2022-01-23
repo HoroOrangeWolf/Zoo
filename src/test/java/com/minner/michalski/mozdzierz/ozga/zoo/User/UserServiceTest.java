@@ -1,5 +1,6 @@
 package com.minner.michalski.mozdzierz.ozga.zoo.User;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +24,11 @@ public class UserServiceTest {
 
     @Autowired
     public UserRepository userRepository;
+
+    @AfterEach
+    public void clear(){
+        userRepository.deleteAll();
+    }
 
     @Test
     public void addUser(){

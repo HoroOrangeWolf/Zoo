@@ -18,11 +18,7 @@ public class MapController {
 
     @PutMapping("/{pathId}")
     public void setVisitedPathNode(@PathVariable("pathId") Long pathElementId){
-        service.setVisited(pathElementId);
+        service.setVisited(pathElementId, true);
     }
 
-    @PutMapping
-    public void setVisitedPathNode(@RequestBody @NotNull PathElement element){
-        service.setVisited(element.getId(), element.getIsVisited());
-    }
 }

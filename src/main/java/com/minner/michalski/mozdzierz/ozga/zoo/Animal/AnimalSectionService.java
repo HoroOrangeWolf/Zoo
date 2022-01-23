@@ -31,6 +31,10 @@ public class AnimalSectionService {
         sectionRepository.save(section);
     }
 
+    public void removeAnimal(Long id){
+        animalRepository.deleteById(id);
+    }
+
     public void updateAnimal(Animal animal){
         animalRepository.save(animal);
     }
@@ -48,24 +52,21 @@ public class AnimalSectionService {
         Optional<Section> section = sectionRepository.findById(id);
 
         if(section.isEmpty())
-            throw new IllegalStateException("Animal not exist");
+            throw new IllegalStateException("Section not exist");
 
         return section.get();
     }
 
 
-    public List<Animal> getAllSections(){
-        return animalRepository.findAll();
-    }
-
-    public List<Section> getAllAnimals(){
+    public List<Section> getAllSections(){
         return sectionRepository.findAll();
     }
 
-    public List<Section> getSectionsOnMap(){
-        throw new NotYetImplementedException();
+    public List<Animal> getAllAnimals(){
+        return animalRepository.findAll();
     }
 
-
-
+    public List<Section> getSectionsOnMap(){
+        return sectionRepository.getAllSectionsOnMap();
+    }
 }

@@ -1,17 +1,17 @@
 package com.minner.michalski.mozdzierz.ozga.zoo.Animal;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Table(name = "section")
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class Section {
     @Id
@@ -38,5 +38,25 @@ public class Section {
     @Column(name = "section_url_image", length = 1000)
     private String sectionUrlImage;
 
+    public Section(String name, String description, Boolean isOnTheMap, Float mapx, Float mapy, String sectionUrlImage) {
+        this.name = name;
+        this.description = description;
+        this.isOnTheMap = isOnTheMap;
+        this.mapx = mapx;
+        this.mapy = mapy;
+        this.sectionUrlImage = sectionUrlImage;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Section section = (Section) o;
+        return id != null && Objects.equals(id, section.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

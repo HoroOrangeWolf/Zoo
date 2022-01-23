@@ -15,6 +15,23 @@ public class MapService {
     private PathRepository pathRepository;
     private PathElementRepository pathElementRepository;
 
+
+    public void addPath(Path path){
+        pathRepository.save(path);
+    }
+
+    public void removePath(Long id){
+        pathRepository.deleteById(id);
+    }
+
+    public void updatePath(Path path){
+        pathRepository.save(path);
+    }
+
+    public void addPathElement(Long idPath, PathElement pathElement){
+
+    }
+
     public void setVisited(Long pathElementId, Boolean isVisited){
         Optional<PathElement> ticketById = pathElementRepository.findById(pathElementId);
 
@@ -24,19 +41,6 @@ public class MapService {
         PathElement pathElement = ticketById.get();
 
         pathElement.setIsVisited(isVisited);
-
-        pathElementRepository.save(pathElement);
-    }
-
-    public void setVisited(Long pathElementId){
-        Optional<PathElement> ticketById = pathElementRepository.findById(pathElementId);
-
-        if(ticketById.isEmpty())
-            throw new IllegalStateException("Path element by id: " + pathElementId + " is not existing!");
-
-        PathElement pathElement = ticketById.get();
-
-        pathElement.setIsVisited(true);
 
         pathElementRepository.save(pathElement);
     }

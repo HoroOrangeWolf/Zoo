@@ -16,7 +16,7 @@ public class RequestService {
     public void addRequest(Request request){
         requestRepository.save(request);
     }
-
+    //nie trzeba robić wyjątku że nie ma id nie jest to tak ważne jak w user
     public void removeRequest(Long id){
         requestRepository.deleteById(id);
     }
@@ -28,9 +28,4 @@ public class RequestService {
     public List<Request> getRequestsByStatus(Status status){
         return requestRepository.getRequestByStatus(status);
     }
-
-
-
-
-
 }
