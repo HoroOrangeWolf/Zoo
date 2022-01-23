@@ -18,12 +18,19 @@ public class UserService {
     }
 
     public void addUser(User user){
+
+        Optional<User> userByEmail = repository.getUserByEmail(user.getEmail());
+
+        if(userByEmail.isPresent())
+            throw new IllegalStateException("User identified by this email exists in database!");
+
         repository.save(user);
     }
 
     public void updateUser(User user){
+
         if(!repository.existsById(user.getId()))
-            throw new UserNotExistException("User is not existing");
+            throw new IllegalStateException("User is not existing");
 
         repository.save(user);
     }
@@ -31,46 +38,42 @@ public class UserService {
     public void deleteUserById(Long id){
         if(!repository.existsById(id))
             throw new UserNotExistException("User is not existing");
+
         repository.deleteById(id);
     }
 
-    public void updatePassword(User user){
-        Optional<User> optionalUser = repository.findById(user.getId());
+    public void updatePassword(Long id, String password){
+        Optional<User> optionalUser = repository.findById(id);
 
         if(optionalUser.isEmpty())
-            throw new IllegalStateException("User by : " + user.getId() + " is not existing!");
+            throw new IllegalStateException("User by : " + id + " is not existing!");
 
         User toUpdate = optionalUser.get();
 
-        toUpdate.setPassword(user.getPassword());
+        toUpdate.setPassword(password);
 
         repository.save(toUpdate);
     }
 
-    public void updateEmail(User user){
-        Optional<User> optionalUser = repository.findById(user.getId());
+    public void updateEmail(Long id, String email){
+        Optional<User> optionalUser = repository.findById(id);
 
         if(optionalUser.isEmpty())
-            throw new IllegalStateException("User by : " + user.getId() + " is not existing!");
+            throw new IllegalStateException("User by : " + id + " is not existing!");
 
         User toUpdate = optionalUser.get();
 
-        toUpdate.setEmail(user.getEmail());
+        toUpdate.setEmail(email);
 
         repository.save(toUpdate);
-    }
-
-    public User getUserByName(String nick){
-
-        Optional<User> user = repository.getUserByName(nick);
-
-        if(user.isEmpty())
-            throw new UserNotExistException(String.format("User %s is not existing", nick));
-
-        return user.get();
     }
 
     public boolean isUserBOK(Long id){
-        return getUser(id).isBokManager();
+        Optional<User> optionalUser = repository.findById(id);
+
+        if(optionalUser.isEmpty())
+            throw new IllegalStateException("User by : " + id + " is not existing!");
+
+        return optionalUser.get().isBokManager();
     }
 }

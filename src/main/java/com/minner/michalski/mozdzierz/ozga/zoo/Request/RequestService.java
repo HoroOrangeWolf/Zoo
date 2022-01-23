@@ -21,9 +21,15 @@ public class RequestService {
         requestRepository.deleteById(id);
     }
 
+    public void updateRequest(Request request){
+        requestRepository.save(request);
+    }
+
     public List<Request> getRequestsByStatus(Status status){
         return requestRepository.getRequestByStatus(status);
     }
+
+
 
 
 

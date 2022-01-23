@@ -6,8 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +28,13 @@ public class User {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Length(min = 3, max = 12)
     @Column(name = "nick", nullable = false)
     private String nick;
 
+    @Length(min=3, max = 12)
     @Column(name = "password", nullable = false)
     private String password;
-
-
 
     @Column(name = "is_bok_manager", nullable = false)
     private boolean isBokManager;
@@ -43,6 +45,7 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ticket> ticketHistories = new ArrayList<>();
 
+    @Email
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
