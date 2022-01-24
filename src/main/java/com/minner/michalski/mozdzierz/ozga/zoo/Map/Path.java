@@ -1,9 +1,7 @@
 package com.minner.michalski.mozdzierz.ozga.zoo.Map;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -23,7 +21,8 @@ public class Path {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToMany(mappedBy = "path")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name="path_id")
     private List<PathElement> pathElements;
 
 

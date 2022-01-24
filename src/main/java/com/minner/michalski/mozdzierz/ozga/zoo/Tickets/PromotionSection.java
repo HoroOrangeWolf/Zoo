@@ -22,12 +22,12 @@ public class PromotionSection {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="section_id", nullable = false)
+    @JoinColumn(name="section_id")
     private Section section;
 
 
     @ManyToOne
-    @JoinColumn(name = "promotion_id", nullable = false)
+    @JoinColumn(name = "promotion_id")
     private Promotion promotion;
 
 }

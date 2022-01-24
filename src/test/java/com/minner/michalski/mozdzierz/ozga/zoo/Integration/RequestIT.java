@@ -1,12 +1,9 @@
 package com.minner.michalski.mozdzierz.ozga.zoo.Integration;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.minner.michalski.mozdzierz.ozga.zoo.Request.Request;
 import com.minner.michalski.mozdzierz.ozga.zoo.Request.RequestRepository;
 import com.minner.michalski.mozdzierz.ozga.zoo.Request.Status;
-import com.minner.michalski.mozdzierz.ozga.zoo.User.User;
-import com.minner.michalski.mozdzierz.ozga.zoo.User.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

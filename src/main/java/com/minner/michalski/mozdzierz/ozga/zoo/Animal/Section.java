@@ -1,11 +1,13 @@
 package com.minner.michalski.mozdzierz.ozga.zoo.Animal;
 
+import com.minner.michalski.mozdzierz.ozga.zoo.Map.PathElement;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Table(name = "section")

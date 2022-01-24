@@ -1,6 +1,7 @@
 package com.minner.michalski.mozdzierz.ozga.zoo.Tickets;
 
 import com.minner.michalski.mozdzierz.ozga.zoo.Map.Path;
+import com.minner.michalski.mozdzierz.ozga.zoo.User.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,11 +36,24 @@ public class Ticket {
     private Date buyDate;
 
     @Column(name = "reservationTime", nullable = false)
-    private Calendar reservationTime;
+    private Date reservationTime;
+
+    @ManyToOne
+    @JoinColumn(name = "user_Id")
+    private User user;
 
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "path_id")
     private Path path;
 
+    public Ticket(BigDecimal price, Boolean isTicketValidate, Boolean isTicketActive, Date buyDate, Date reservationTime, User user, Path path) {
+        this.price = price;
+        this.isTicketValidate = isTicketValidate;
+        this.isTicketActive = isTicketActive;
+        this.buyDate = buyDate;
+        this.reservationTime = reservationTime;
+        this.user = user;
+        this.path = path;
+    }
 }

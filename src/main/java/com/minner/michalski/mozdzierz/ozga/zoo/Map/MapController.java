@@ -1,6 +1,7 @@
 package com.minner.michalski.mozdzierz.ozga.zoo.Map;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,9 +16,9 @@ public class MapController {
         return service.getPath(pathId);
     }
 
-    @PutMapping("/{pathId}")
-    public void setVisitedPathNode(@PathVariable("pathId") Long pathElementId){
-        service.setVisited(pathElementId, true);
+    @PutMapping("/pathelement/{pathId}")
+    public void setVisitedPathNode(@PathVariable("pathId") Long pathElementId, @Param("visited") Boolean visited){
+        service.setVisited(pathElementId, visited);
     }
 
 }

@@ -1,8 +1,11 @@
 package com.minner.michalski.mozdzierz.ozga.zoo.Tickets;
 
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import java.sql.Date;
 
 @RestController
 @RequestMapping("api/v1/ticket")
@@ -12,7 +15,27 @@ public class TicketController {
 
     private final TicketService ticketService;
 
+    @PutMapping("/{idTicket}/enter")
+    public void enterZoo(@PathVariable("idTicket") Long idTicket){
+        ticketService.enterZoo(idTicket);
+    }
 
+    @PutMapping("/{idTicket}/exit")
+    public void exitZoo(@PathVariable("idTicket") Long idTicket){
+        ticketService.exitZoo(idTicket);
+    }
+
+
+    @PostMapping("/user/{userId}")
+    public void buyTicket(@PathVariable("userId") Long userId, @RequestParam("promotion") Long promotionId, @RequestParam("reservationTime") String date)
+    {
+
+        Date dateFormated = Date.valueOf(date);
+
+        System.out.println("WTF: " + promotionId);
+
+        ticketService.buyTicket(userId, promotionId, dateFormated);
+    }
 
 
 }

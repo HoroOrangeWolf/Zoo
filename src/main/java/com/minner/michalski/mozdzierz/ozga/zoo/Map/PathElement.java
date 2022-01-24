@@ -31,13 +31,14 @@ public class PathElement {
     @Column(name="isVisited")
     private Boolean isVisited = false;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "ref_purveyor")
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name = "path_id")
     private Path path;
 
-    public PathElement(Section section, Boolean isVisited) {
+    public PathElement(Section section, Path path,Boolean isVisited) {
         this.section = section;
         this.isVisited = isVisited;
+        this.path = path;
     }
 
     @Override

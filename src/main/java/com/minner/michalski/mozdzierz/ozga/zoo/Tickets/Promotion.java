@@ -26,7 +26,8 @@ public class Promotion {
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 
-    @OneToMany(mappedBy = "promotion", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name="promotion_id")
     List<PromotionSection> sectionList;
 
     @Override
