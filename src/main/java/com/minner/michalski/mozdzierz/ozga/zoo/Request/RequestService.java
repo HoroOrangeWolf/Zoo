@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -25,7 +26,31 @@ public class RequestService {
         requestRepository.save(request);
     }
 
-    public List<Request> getRequestsByStatus(Status status){
-        return requestRepository.getRequestByStatus(status);
+    public Request getNextRequest(){
+        List<Request> nextRequests = requestRepository.getNextRequests();
+
+        Optional<Request> first = nextRequests.stream().findFirst();
+
+        if(first.isEmpty())
+            throw new IllegalStateException("There is no more requests!");
+
+        Request request = first.get();
+
+        request.setStatus(Status.ROZPATRYWANY);
+
+        requestRepository.save(request);
+
+        return request;
     }
+
+    public Request getRequestById(Long id){
+        Optional<Request> byId = requestRepository.findById(id);
+
+        if(byId.isEmpty())
+            throw new IllegalStateException("Invalid id");
+
+
+        return byId.get();
+    }
+
 }

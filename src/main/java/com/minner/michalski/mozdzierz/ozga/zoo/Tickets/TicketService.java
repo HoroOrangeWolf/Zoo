@@ -33,13 +33,21 @@ public class TicketService {
 
         calendar.setTime(date);
 
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
         Calendar calendarNow = Calendar.getInstance();
 
         calendarNow.setTime(new java.util.Date());
 
-        if(calendar.get(Calendar.DAY_OF_MONTH) < calendarNow.get(Calendar.DAY_OF_MONTH) ||
-                calendar.get(Calendar.MONTH) < calendarNow.get(Calendar.MONTH) ||
-                calendar.get(Calendar.YEAR) < calendarNow.get(Calendar.YEAR))
+        calendarNow.set(Calendar.HOUR_OF_DAY, 0);
+        calendarNow.set(Calendar.MINUTE, 0);
+        calendarNow.set(Calendar.SECOND, 0);
+        calendarNow.set(Calendar.MILLISECOND, 0);
+
+        if(calendar.before(calendarNow))
             throw new IllegalStateException("You can't ticket before");
 
         Optional<Promotion> byIdPromotion = promotionRepository.findById(promotionId);

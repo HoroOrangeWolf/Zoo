@@ -5,10 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
-
+import static org.assertj.core.api.Assertions.*;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestPropertySource(
@@ -24,20 +26,44 @@ public class RequestRepositoryTest {
         requestRepository.deleteAll();;
     }
 
+
     @Test
-    public void getRequests(){
+    public void getNextRequest(){
         //given
-        Request request = new Request(Status.NIEROZPATRZONY,"Prosze o zwolnienie");
+        Request request = new Request(Status.ROZPATRYWANY,"Prosze o zwolnienie");
         Request request2 = new Request(Status.NIEROZPATRZONY,"Prosze o zwolnienie");
+
+        Request request3 = new Request(Status.NIEROZPATRZONY,"Prosze o zwolnienie");
+
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTime(new Date());
+
+        calendar.add(Calendar.YEAR, -1);
+
+        request.setDate(calendar.getTime());
+
+        calendar.setTime(new Date());
+
+        calendar.add(Calendar.YEAR, -1);
+
+        request3.setDate(calendar.getTime());
 
         //when
 
         requestRepository.save(request);
         requestRepository.save(request2);
+        requestRepository.save(request3);
+        List<Request> nextRequests = requestRepository.getNextRequests();
 
-        List<Request> requestByStatus = requestRepository.getRequestByStatus(Status.NIEROZPATRZONY);
+
         //then
-        assertArrayEquals(requestByStatus.toArray( new Request[0]), new Request[]{request, request2});
+
+        assertTrue(nextRequests.size() == 2);
+
+        assertThat(nextRequests.toArray(new Request[0]))
+                .usingElementComparatorIgnoringFields("date")
+                .contains(request2, request3);
 
     }
 

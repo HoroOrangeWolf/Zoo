@@ -1,8 +1,6 @@
 package com.minner.michalski.mozdzierz.ozga.zoo.Tickets;
 
 import lombok.AllArgsConstructor;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
@@ -31,8 +29,6 @@ public class TicketController {
     {
 
         Date dateFormated = Date.valueOf(date);
-
-        System.out.println("WTF: " + promotionId);
 
         ticketService.buyTicket(userId, promotionId, dateFormated);
     }

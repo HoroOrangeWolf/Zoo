@@ -1,4 +1,4 @@
-package com.minner.michalski.mozdzierz.ozga.zoo.Integration;
+package com.minner.michalski.mozdzierz.ozga.zoo.IntegrationIT;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,13 +8,12 @@ import com.minner.michalski.mozdzierz.ozga.zoo.Map.Path;
 import com.minner.michalski.mozdzierz.ozga.zoo.Map.PathElement;
 import com.minner.michalski.mozdzierz.ozga.zoo.Map.PathElementRepository;
 import com.minner.michalski.mozdzierz.ozga.zoo.Map.PathRepository;
-import com.minner.michalski.mozdzierz.ozga.zoo.Request.RequestRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -60,6 +59,7 @@ public class MapIT {
     }
 
     @Test
+    @Disabled
     void getPath() throws Exception {
         //given
         Section section = new Section("Pawiany", "Tu są małpki ",

@@ -1,4 +1,4 @@
-package com.minner.michalski.mozdzierz.ozga.zoo.Integration;
+package com.minner.michalski.mozdzierz.ozga.zoo.IntegrationIT;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.minner.michalski.mozdzierz.ozga.zoo.User.User;

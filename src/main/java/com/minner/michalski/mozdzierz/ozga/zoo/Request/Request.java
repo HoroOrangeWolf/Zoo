@@ -6,7 +6,7 @@ import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import java.util.Date;
 import java.util.Objects;
 
 @Table(name = "request")
@@ -21,7 +21,8 @@ public class Request {
     @Column(name = "id", nullable = false)
     private Long id;
 
-
+    @Column(name = "creation_time")
+    private Date date = new Date();
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)

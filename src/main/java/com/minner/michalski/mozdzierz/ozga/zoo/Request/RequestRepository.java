@@ -5,10 +5,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RequestRepository extends JpaRepository<Request, Long> {
 
-    @Query("SELECT c FROM Request c WHERE c.status=?1")
-    List<Request> getRequestByStatus(Status status);
+    @Query(value = "SELECT c FROM Request c WHERE c.status LIKE 'NIEROZPATRZONY' ORDER BY c.date ASC")
+    List<Request> getNextRequests();
 }

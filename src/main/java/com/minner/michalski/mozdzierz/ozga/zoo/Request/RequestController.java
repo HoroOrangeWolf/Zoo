@@ -28,8 +28,14 @@ public class RequestController {
         service.updateRequest(request);
     }
 
-    @GetMapping
-    public List<Request> getRequestsByStatus(@RequestParam("status") Status status) {
-        return service.getRequestsByStatus(status);
+    @GetMapping("/{idRequest}")
+    public Request getRequestsById(@PathVariable("idRequest") Long id){
+        return service.getRequestById(id);
     }
+
+    @GetMapping
+    public Request getNextRequest(){
+        return service.getNextRequest();
+    }
+
 }

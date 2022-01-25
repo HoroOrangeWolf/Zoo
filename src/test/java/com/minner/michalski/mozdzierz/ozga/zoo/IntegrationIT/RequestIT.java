@@ -1,4 +1,4 @@
-package com.minner.michalski.mozdzierz.ozga.zoo.Integration;
+package com.minner.michalski.mozdzierz.ozga.zoo.IntegrationIT;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.minner.michalski.mozdzierz.ozga.zoo.Request.Request;
@@ -14,11 +14,15 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.web.util.NestedServletException;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -61,7 +65,7 @@ public class RequestIT {
         List<Request> userList = repository.findAll();
 
         assertThat(userList)
-                .usingElementComparatorIgnoringFields("id")
+                .usingElementComparatorIgnoringFields("id", "date")
                 .contains(request);
     }
 
@@ -82,7 +86,7 @@ public class RequestIT {
         List<Request> userList = repository.findAll();
 
         assertThat(userList)
-                .usingElementComparatorIgnoringFields("id")
+                .usingElementComparatorIgnoringFields("id", "date")
                 .doesNotContain(request);
     }
 
@@ -107,33 +111,105 @@ public class RequestIT {
         List<Request> userList = repository.findAll();
 
         assertThat(userList)
-                .usingElementComparatorIgnoringFields("id")
+                .usingElementComparatorIgnoringFields("id", "date")
                 .contains(toUpdate);
     }
 
     @Test
-    void getRequestByStatus() throws Exception {
+    void getNextRequest() throws Exception {
         //given
-        Request request = new Request(Status.NIEROZPATRZONY,"Prosze o zwolnienie");
+        //given
+        Request request = new Request(Status.ROZPATRYWANY,"Prosze o zwolnienie");
+        Request request2 = new Request(Status.NIEROZPATRZONY,"Prosze o zwolnienie");
 
-        Request request2 = new Request(Status.NIEROZPATRZONY,"Prosze o zwolnienie2");
-        //when
+        Request request3 = new Request(Status.NIEROZPATRZONY,"Prosze o zwolnienie");
+
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTime(new Date());
+
+        calendar.add(Calendar.YEAR, -1);
+
+        request.setDate(calendar.getTime());
+
+        calendar.setTime(new Date());
+
+        calendar.add(Calendar.YEAR, -1);
+
+        request3.setDate(calendar.getTime());
 
         repository.save(request);
-
         repository.save(request2);
+        repository.save(request3);
+        //when
 
-        ResultActions resultActions = mockMvc.perform(get(url + "/api/v1/request/")
-                .param("status", String.valueOf(Status.NIEROZPATRZONY)));
+        ResultActions resultActions = mockMvc.perform(get(url + "/api/v1/request/"));
 
         //then
         resultActions.andExpect(status().isOk());
 
         MvcResult result = resultActions.andReturn();
 
-        Request[] requests = objectMapper.readValue(result.getResponse().getContentAsString(), Request[].class);
+        Request request_returned = objectMapper.readValue(result.getResponse().getContentAsString(), Request.class);
 
-        assertArrayEquals(requests, new Request[]{request, request2});
+        assertSame(request3.getId(), request_returned.getId());
+
+        assertSame(request_returned.getStatus(), Status.ROZPATRYWANY);
+    }
+
+    @Test
+    void getNextRequestNoMoreRequests() throws Exception {
+        //given
+
+        //when
+        assertThatThrownBy(()->{
+            try{
+                ResultActions resultActions = mockMvc.perform(get(url + "/api/v1/request/"));
+            }catch (NestedServletException exception){
+                throw exception.getCause();
+            }
+        }).isInstanceOf(IllegalStateException.class).hasMessage("There is no more requests!");
+        //then
+    }
+
+    @Test
+    void getRequestById() throws Exception {
+        //given
+        Request request = new Request(Status.NIEROZPATRZONY,"Prosze o zwolnienie");
+
+        repository.save(request);
+        //when
+        ResultActions resultActions = mockMvc.perform(get(url + "/api/v1/request").param("requestId", request.getId().toString()));
+
+        //then
+        resultActions.andExpect(status().isOk());
+        MvcResult mvcResult = resultActions.andReturn();
+
+        Request reuturned = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Request.class);
+
+        assertSame(request.getId(), reuturned.getId());
+
+    }
+
+    @Test
+    void getRequestByInvalidId() throws Exception {
+        //given
+        Long invalidID = -1L;
+        //when
+
+        assertThatThrownBy(()->{
+            try{
+                ResultActions resultActions = mockMvc.perform(get(url + "/api/v1/request/" + invalidID));
+            }catch (NestedServletException exception){
+                throw exception.getCause();
+            }
+        }).isInstanceOf(IllegalStateException.class).hasMessage("Invalid id");
+
+
+
+        //then
+
+
     }
 
 
